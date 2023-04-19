@@ -159,13 +159,13 @@ int main(int argc, char *argv[]){
 
 	std::cout << "QSELECT : " << quick_select(meu,k,0,meu.tamanho()) << std::endl;
 
-
+/*
 	quick_sort(meu,0,meu.tamanho());
 	for(int i = 0 ; i < meu.tamanho(); i++){
 		std::cout << meu.at(i) << " ";
 	}
 	std::cout << std::endl;
-
+*/
 
 	return 0;
 }
