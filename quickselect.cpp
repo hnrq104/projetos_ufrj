@@ -154,7 +154,7 @@ int main(int argc, char *argv[]){
 	}
 
 	if(k >= meu.tamanho()){
-		throw std::out_of_range("valor improprio de k")
+		throw std::out_of_range("valor improprio de k");
 	}
 
 	std::cout << "QSELECT : " << quick_select(meu,k,0,meu.tamanho()) << std::endl;
