@@ -1,5 +1,6 @@
 #include<iostream>
-#include<string.h>
+#include<stdlib.h>
+
 
 class vetor{
 
@@ -45,7 +46,7 @@ class vetor{
 
 		int &at(int index){
 			if(index < 0 || index >= tam_externo){
-				throw std::out_of_range("acesso fora do range");
+				return *data; // não pode soltar exceção
 			}
 
 			return *(data + index);
@@ -59,7 +60,7 @@ class vetor{
 
 		void remove(int index){
 			if(index < 0 || index >= tam_externo){
-				throw std::out_of_range("acesso fora do range");
+				return; //não pode soltar exceção
 			}
 
 			for(int i = index; i < tam_externo - 1; i++){
@@ -108,7 +109,7 @@ int particiona(vetor &v, int inicio, int fim){
 	return i-1;
 }
 
-
+/*
 void quick_sort(vetor &v, int inicio, int fim){
 	if(fim - inicio > 1){
 		int pos = particiona(v,inicio,fim);
@@ -116,6 +117,7 @@ void quick_sort(vetor &v, int inicio, int fim){
 		quick_sort(v,pos,fim);
 	}
 }
+*/
 
 int quick_select(vetor &v, int k, int inicio, int fim){
 	int pos = particiona(v,inicio,fim);
@@ -133,19 +135,11 @@ int quick_select(vetor &v, int k, int inicio, int fim){
 }
 
 
+//atoi e sscanf não parecem estar funcionando
+
 
 int main(int argc, char *argv[]){
-	if(argc != 3){
-		throw std::invalid_argument("chame o programa por ./programa -k \"pos\"");
-	}
-	if(strcmp("-k",argv[1])){
-		throw std::invalid_argument("chame o programa por ./programa -k \"pos\"");
-	}
 	int k = atoi(argv[2]);
-	if(k < 0){
-		throw std::invalid_argument("k nao pode ser negativo");
-	}
-
 
 	vetor meu;
 	int num;
@@ -153,11 +147,11 @@ int main(int argc, char *argv[]){
 		meu.anexa(num);
 	}
 
-	if(k >= meu.tamanho()){
-		throw std::out_of_range("valor improprio de k");
-	}
+	// if(k >= meu.tamanho()){
+	// 	throw std::out_of_range("valor improprio de k");
+	// }
 
-	std::cout << "QSELECT : " << quick_select(meu,k,0,meu.tamanho()) << std::endl;
+	std::cout << quick_select(meu,k,0,meu.tamanho()) << std::endl;
 
 /*
 	quick_sort(meu,0,meu.tamanho());
