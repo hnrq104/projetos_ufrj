@@ -139,6 +139,8 @@ int quick_select(vetor &v, int k, int inicio, int fim){
 
 
 int main(int argc, char *argv[]){
+	//throw parece estar proibido
+	
 	int k = atoi(argv[2]);
 
 	vetor meu;
