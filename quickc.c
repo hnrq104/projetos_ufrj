@@ -19,7 +19,8 @@ struct vetor init(void){
 
 void overflow(struct vetor *v){
     int *ptr = malloc(2*sizeof(int)*(v->tam_externo));
-    for(int i = 0; i < v->tam_interno; i++){
+    int i;
+    for(i = 0; i < v->tam_interno; i++){
         *(ptr+i) = *(v->data + i); 
     }
 
