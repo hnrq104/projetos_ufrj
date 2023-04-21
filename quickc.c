@@ -40,7 +40,7 @@ void anexa(struct vetor *v, int x){
     return;
 }
 
-int at(struct vetor *v, int ind){
+int at(struct vetor *v, int ind){ //retorna por referencia
     if(ind < 0 || ind > v->tam_externo){
         //acesso fora
         return -1;
@@ -48,7 +48,61 @@ int at(struct vetor *v, int ind){
     return *(v->data + ind);
 }
 
+
+
 //não precisa remover
+
+
+int particiona(vetor *v, int inicio, int fim){
+    // particiona no meio por enquanto
+    int meio = (inicio + fim)/2;
+    int pivot = at(v,meio);
+    //troca pivot com inicio
+
+    *(v->data + meio) = *(v->data + inicio);
+    *(v->data + inicio) = pivot;
+
+    int i = inicio + 1; // indice do inicio
+    int j = fim - 1 ; // indice do final
+
+    while(i<=j){
+        while(i < fim && *(v->data + i) <= pivot){
+            i++;
+        }
+
+        while(j > inicio && *(v->data + j) >= pivot){
+            j--;
+        }
+
+        if(i < j){
+            int tmp = *(v->data + i);
+            *(v->data + i) = *(v->data + j);
+            *(v->data + j) = tmp;
+        }
+    }
+
+    //troca pivot com posição encontrada
+    int tmp = *(v->data + i - 1);
+    *(v->data + i - 1) = pivot;
+    *(v->data + inicio) = tmp;
+
+    return i-1;
+}
+
+int quick_select(struct vetor *v, int inicio, int fim, int k){
+    int pos = particiona(v,inicio,fim);
+    if(pos == k){
+        return *(v->data + pos);
+    }
+
+    if(pos > k){
+        return quick_select(v,inicio,pos,k);
+    }
+
+    else{ // pos < k
+        return quick_select(v,pos,fim,k);
+    }
+}
 
 
 int main(int argc, char* argv[]){
@@ -56,23 +110,15 @@ int main(int argc, char* argv[]){
     struct vetor v = init();
     int num;
     
-    int counter = 0;
     while(!feof(stdin)){
         scanf("%d",&num);
 
-        if(feof(stdin)) break;
-        
+        if(feof(stdin)) break;        
         anexa(&v,num);
-        counter++;
+
     }
 
-
-    for(int i = 0; i < v.tam_externo; i++){
-        printf("%d ",*(v.data + i));
-    }
-    printf("\n");
-
-    printf("K = %d counter = %d \n", k,counter);
+    printf("%d", quick_select(&v,0,v.tam_externo,k));
 
     return 0;
 }
