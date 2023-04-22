@@ -119,7 +119,7 @@ int main(int argc, char* argv[]){
 
     }
 
-    printf("%d", quick_select(&v,0,v.tam_externo,k-1)); // ?
+    printf("%d", quick_select(&v,0,v.tam_externo,k)); // ?
 
     return 0;
 }
