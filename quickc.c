@@ -18,9 +18,9 @@ struct vetor init(void){
 }
 
 void overflow(struct vetor *v){
-    int *ptr = malloc(2*sizeof(int)*(v->tam_externo));
+    int *ptr = malloc(2*sizeof(int)*(v->tam_interno));
     int i;
-    for(i = 0; i < v->tam_interno; i++){
+    for(i = 0; i < v->tam_externo; i++){
         *(ptr+i) = *(v->data + i); 
     }
 
@@ -119,7 +119,7 @@ int main(int argc, char* argv[]){
 
     }
 
-    printf("%d", quick_select(&v,0,v.tam_externo,k - 1));
+    printf("%d", quick_select(&v,0,v.tam_externo,k-1)); // ?
 
     return 0;
 }
