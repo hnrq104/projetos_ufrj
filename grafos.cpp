@@ -8,57 +8,29 @@ class no{
         T data;
         no *prox;
 
+        no(){
+            prox = nullptr;
+        }
+
         ~no(){
             if(prox!=nullptr){
                 delete prox;
             }
         }
-};
-
-template<typename T>
-class nos{
-    public:
-        no<T> *cbc;
-        
-        nos(){
-            cbc = new no<T>;
-            cbc->prox = nullptr;
-        }
-
-        nos(const nos &copy){
-            cbc = new no<T>;
-            no<T> *ptr_copy = copy.cbc->prox;
-            no<T> *ptr = cbc;
-            while(ptr_copy != nullptr){
-                ptr->prox = new no<T>;
-                ptr->prox->data = ptr_copy -> data;
-                ptr = ptr->prox;
-                ptr_copy = ptr_copy->prox;
-            }
-        
-        }
-
-        ~nos(){
-            delete cbc;
-        }
 
         void insere(T valor){
-            no<T>* ptr = cbc;
+            no<T>* ptr = this;
             while(ptr->prox != nullptr){
                 ptr = ptr->prox;
             }
 
             no<T>* novo = new no<T>;
             novo->data = valor;
-            novo->prox = nullptr;
-
             ptr->prox = novo;
         }
 
-        no<T> *get_first(void){
-            return cbc->prox;
-        }
 };
+
 
 template<typename T>
 class vetor{
@@ -76,6 +48,7 @@ class vetor{
             
             delete[] data;
             data = ptr;
+            tamanho_alocado *=2;
         }
 
     public:
@@ -91,7 +64,7 @@ class vetor{
             tamanho_imaginario = copy.tamanho_imaginario;
             data = new T[tamanho_alocado];
             for(int i = 0; i < tamanho_imaginario; i++){
-                *(data + i) = *(copy->data + i);
+                *(data + i) = *(copy.data + i);
             }
         }
 
@@ -107,12 +80,12 @@ class vetor{
             }
         }
 
-        T *at(int index){
+        T &at(int index){
             if(index < 0 || index >= tamanho_imaginario){
-                return nullptr; // n pode usar throw
+                return *(data); // n pode usar throw
             }
 
-            return (data + index);
+            return *(data + index);
         }
 
         int size(void){
@@ -130,111 +103,102 @@ bool isdigit(char *ptr){
     }
 }
 
-vetor<int> &ordem(vetor<nos<int>> &adjacencias){
-    /*LEMBRA 0 É O PRIMEIRO ELEMENTO*/
-    printf("OI FUNCAO FOI CHAMADA!!");
+vetor<int> ordem(vetor<no<int>*> &adj){
+    vetor<int> precedem;
+    //precedem eh inicializado por 0s
+    for(int i = 0; i < adj.size(); i++){
+        precedem.push_back(0);
+    }
 
-    // vetor<int> precedem; // precedem.at(2) = quantas tarefas precedem
-    // //precedem eh inicializado por 0s
-    // for(int i = 0; i < adjacencias.size(); i++){
-    //     precedem.push_back(0);
-    // }
     
-    // // printf("precedem incializado com 0!!!");
+    //fill precedem
+    no<int> *ptr;
+    for(int i = 0; i < adj.size(); i++){
+        ptr = adj.at(i)->prox;
+        while(ptr != nullptr){
+            precedem.at(ptr->data)++;
+            ptr = ptr->prox;
+        }
+
+    }
+    // printf("precedem cheio!");
 
 
-    // //fill precedem
-    // for(int i = 0; i < adjacencias.size(); i++){
-    //     no<int> *ptr = adjacencias.at(i)->get_first();
-
-    //     while(ptr != nullptr){
-    //         (*precedem.at(ptr->data))++;
-    //     }
-    // }
-
-    // // printf("precedem cheio!");
-
-
-    // vetor<int> ordenado;
-    // /*procura primeiros 0's*/
-    // for(int i = 0; i < precedem.size(); i++){
-    //     if(*precedem.at(i) == 0){
-    //         ordenado.push_back(i);
-    //     }
-    // }
-
-    // // printf("CHEGUEI AQUI!!!");
-
+    vetor<int> ordenado;
+    /*procura primeiros 0's*/
+    for(int i = 0; i < precedem.size(); i++){
+        if(precedem.at(i) == 0){
+            ordenado.push_back(i);
+        }
+    }
 
     // //começa de fato o algoritmo
 
-    // for(int j = 0; j < ordenado.size(); j++){
-    //     //reduz a precedencia das adjacencias;
-    //     int num = *ordenado.at(j); // numero para ser analizado
-    //     no<int> *ptr = adjacencias.at(num)->get_first(); // primeiro elemento da lista
+    for(int j = 0; j < ordenado.size(); j++){
+        //reduz a precedencia das adjacencias;
+        int num = ordenado.at(j); // numero para ser analizado
+        no<int> *ptr = adj.at(num)->prox; // primeiro elemento da lista
         
-    //     while(ptr!=nullptr){ //subtrai da lista de precedencia
-    //         (*precedem.at(ptr->data))--;
-    //         //se zerar adicionar a ordem
-    //         if(*precedem.at(ptr->data) == 0){
-    //             ordenado.push_back(ptr->data);
-    //         }
-    //         ptr = ptr->prox;
-    //     }
-    // }
-    vetor<int> *novo = new vetor<int>;
-    return *novo;
+        while(ptr!=nullptr){ //subtrai da lista de precedencia
+            precedem.at(ptr->data)--;
+            //se zerar adicionar a ordem
+            if(precedem.at(ptr->data) == 0){
+                ordenado.push_back(ptr->data);
+            }
+            ptr = ptr->prox;
+        }
+    }
+    
+    return ordenado;
     // return ordenado;
 }
 
 int main(void){
     
     char *line;
-    char *ptr;
+    char *ptr_char;
     size_t str_size = 80;
     line = new char[str_size];
 
-    vetor<nos<int>> adjacencias;
-    nos<int> teste;
-
+    vetor<no<int>*> adj;
     while(true){
         getline(&line,&str_size,stdin);
         if(feof(stdin)) break;
         
-        nos<int> lista;
-        ptr = line;
+        no<int> *lista = new no<int>;
+        ptr_char = line;
 
-        while(*ptr != '\0'){
-            if(isdigit(ptr)){
-                lista.insere(atoi(ptr));
-                while(isdigit(ptr)){
-                    ptr++;
+        while(*ptr_char != '\0'){
+            if(isdigit(ptr_char)){
+                lista->insere(atoi(ptr_char));
+                while(isdigit(ptr_char)){
+                    ptr_char++;
                 }
             }
-            ptr++;
+            ptr_char++;
         }
-
-        adjacencias.push_back(lista);
+        adj.push_back(lista);
     }
 
-
+/*
     printf("valores lidos \n");
-
-    printf("%d \n",adjacencias.size());
-
-    int i;
-    for(i = 0 ; i < adjacencias.size(); i++){
+    no<int> *ptr_no;
+    for(int i = 0; i < adj.size(); i++){
+        ptr_no = adj.at(i)->prox;
         printf("vertice %d -> ",i);
-        no<int> *ptr = adjacencias.at(i)->get_first();
-        while(ptr != nullptr){
-            printf("%d ",ptr->data);
-            ptr = ptr->prox;
+        while(ptr_no != nullptr){
+            printf("%d ",ptr_no->data);
+            ptr_no = ptr_no->prox;
         }
-
         printf("\n");
     }
-    
-    
+*/
+
+    vetor<int> resposta = ordem(adj);
+    for(int i = 0; i < resposta.size(); i++){
+        printf("%d",resposta.at(i));
+    }
+
     return 0;
 }
 
