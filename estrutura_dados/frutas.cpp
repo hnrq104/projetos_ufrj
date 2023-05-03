@@ -100,10 +100,54 @@ void print_em_ordem(struct fruta* ptr){
     print_em_ordem(ptr->dir);
 }
 
-// struct fruta* &select(struct fruta* &p_arvore, int i){
-    
-// }
+//ToDo
+/*implementar espertamente o remove, para que mantenha estrutura da arvore (FEITO)
+implementar o select para arvore binaria de busca (FEITO) :)
+*/
 
+int remove_rec(struct fruta* &p_arvore, int r){
+    /*casos base*/
+    if(p_arvore == nullptr){
+        return 0;
+    }
+    if(p_arvore->data == r){
+        remover(p_arvore);
+        return 1;
+    }
+    /*casos recursivos */
+    if(r < p_arvore->data){
+        if(remove_rec(p_arvore->esq,r)){
+            p_arvore->frutas_esquerdas--;
+            return 1;
+        }
+    }
+    else{ //r > p_arvore -> data
+        if(remove_rec(p_arvore->dir,r)){
+            return 1;
+        }
+    }
+
+    return 0; //nenhum elemento foi removido
+}
+
+int select(struct fruta *p_arvore, int k){
+    if(p_arvore == nullptr){
+        throw std::out_of_range("posicao invalida de select"); // erro posição invalida
+    }
+
+    if(k == p_arvore->frutas_esquerdas){
+        return p_arvore->data;
+    }
+
+    if(k < p_arvore->frutas_esquerdas){
+        return select(p_arvore->esq,k);
+    }
+
+    else{ //k > p_arvore->frutas_esquerda
+        int relativa = k - (p_arvore->frutas_esquerdas + 1);
+        return select(p_arvore->dir,relativa);
+    }
+}
 
 int main(void){
     struct fruta* salada = nullptr;
@@ -115,13 +159,12 @@ int main(void){
     insere(salada,1);
     insere(salada,2);
     insere(salada,8);
+    insere(salada,0);
 
-
-    remover(busca(salada,2));
     print_em_ordem(salada);
-    std::cout << std::endl;
+    std::cout << std::endl;    
+    std::cout << select(salada,8) << std::endl;
 
-    std::cout <<salada->frutas_esquerdas << std::endl;
     return 0;
 }
 

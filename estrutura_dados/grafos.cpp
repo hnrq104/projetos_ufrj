@@ -97,10 +97,7 @@ bool isdigit(char *ptr){
     if(*ptr >= '0' && *ptr <= '9'){
         return true; 
     }
-    
-    else{
-        return false;
-    }
+    return false;
 }
 
 vetor<int> ordem(vetor<no<int>*> &adj){
@@ -155,23 +152,25 @@ vetor<int> ordem(vetor<no<int>*> &adj){
 
 int main(void){
     
-    char *line;
-    char *ptr_char;
-    size_t str_size = 80;
-    line = new char[str_size];
+    char *line; //inicio do buffer
+    char *ptr_char; 
+    size_t str_size = 80; //tamanho do buffer
+    line = new char[str_size]; //buffer
 
-    vetor<no<int>*> adj;
+    vetor<no<int>*> adj;// lista de adjacencias
+
     while(true){
         getline(&line,&str_size,stdin);
+        
         if(feof(stdin)) break;
         
-        no<int> *lista = new no<int>;
+        no<int> *lista = new no<int>;// adjacencias da linha
         ptr_char = line;
 
         while(*ptr_char != '\0'){
             if(isdigit(ptr_char)){
                 lista->insere(atoi(ptr_char));
-                while(isdigit(ptr_char)){
+                while(isdigit(ptr_char)){// terminar a leitura de número
                     ptr_char++;
                 }
             }
