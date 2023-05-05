@@ -151,20 +151,11 @@ int select(struct fruta *p_arvore, int k){
 
 int main(void){
     struct fruta* salada = nullptr;
-    insere(salada,5);
-    insere(salada,3);
-    insere(salada,7);
-    insere(salada,6);
-    insere(salada,4);
-    insere(salada,1);
-    insere(salada,2);
-    insere(salada,8);
-    insere(salada,0);
+    for(int i = 0; i < 1000000; i++){
+        insere(salada,rand());
+    }
 
-    print_em_ordem(salada);
-    std::cout << std::endl;    
-    std::cout << select(salada,8) << std::endl;
-
+    std::cout << "pos 0 "  << select(salada,500000) << std::endl;
     return 0;
 }
 
