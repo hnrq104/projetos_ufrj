@@ -6,7 +6,7 @@ def sin_taylor(h, termos):
     soma = 0
 
     #kahan
-    e = 0
+    # e = 0
 
     for i in range(1,termos):
         fat*=i
@@ -21,7 +21,7 @@ def sin_taylor(h, termos):
 
     return soma
 
-print("taylor sin (pi/6 , 10) = ", sin_taylor(math.pi/6,6))
+print("taylor sin (pi/6 , 10) = ", sin_taylor(math.pi/6,100))
             
 
 

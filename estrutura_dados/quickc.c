@@ -101,7 +101,7 @@ int quick_select(struct vetor *v, int inicio, int fim, int k){
     }
 
     else{ // pos < k
-        return quick_select(v,pos,fim,k);
+        return quick_select(v,pos + 1,fim,k);
     }
 }
 
@@ -119,7 +119,7 @@ int main(int argc, char* argv[]){
 
     }
 
-    printf("%d", quick_select(&v,0,v.tam_externo,k)); // ?
+    printf("%d", quick_select(&v,0,v.tam_externo,k));
 
     return 0;
 }

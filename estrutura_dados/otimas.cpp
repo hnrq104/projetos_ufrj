@@ -18,7 +18,6 @@
 std::vector<int> sigma (std::vector<int> pesos){
     size_t tam = pesos.size();
     size_t lado = tam + 1;
-    // int matrix[tam][tam];
     
     std::vector<int> custos(lado*lado);
 
@@ -43,11 +42,15 @@ std::vector<int> sigma (std::vector<int> pesos){
     return custos;
 }
 
+struct par{
+    int peso;
+    int index;
+};
 
-std::vector<int> solut(std::vector<int> custos, size_t frutas){
+std::vector<par> solut(std::vector<int> custos, size_t frutas){
     //casos base
     std::vector<int> sol = custos;
-
+    std::vector<int> raizes(sol.size());
 
     size_t lado = frutas + 1;
     //casos não base
@@ -70,14 +73,29 @@ std::vector<int> solut(std::vector<int> custos, size_t frutas){
             }
 
             sol.at(lado*j + fim) += minimal;
+            raizes.at(lado*j + fim) = raiz;
         }
     }
+    //decidi depois fazer o par, então vou copiar tudo de volta (perde um tempo)
+    std::vector<par> resp;
+    for(size_t i = 0; i < sol.size(); i++){
+        par p;
+        p.peso = sol.at(i);
+        p.index = raizes.at(i);
 
-    return sol;
+        resp.push_back(p);
+    }
+    return resp;
 }
 
+
 int main(void){
-    std::vector<int> c = {220,10,5,1,5,6};
+    std::vector<int> c;
+
+    for(int i = 0; i < 10; i++){
+        c.push_back(rand()%50);
+    }
+
     std::vector<int> resp = sigma(c);
     size_t s = c.size() + 1;
     for(size_t i = 0; i < s; i++){
@@ -89,15 +107,15 @@ int main(void){
 
     std::cout << "matriz de custos :" << std::endl;
     
-    std::vector<int> sol = solut(resp,c.size());
+    std::vector<par> sol = solut(resp,c.size());;
     
     for(size_t i = 0; i < s; i++){
         for(size_t j = i; j <s; j++){
-            std::cout << sol.at(i*s + j) << " ";
+            std::cout << sol.at(i*s + j).peso << " ";
         }
         std::cout << std::endl;
     }
-
+    
     return 0;
 }
 

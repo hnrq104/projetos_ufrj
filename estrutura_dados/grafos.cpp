@@ -93,12 +93,6 @@ class vetor{
         }
 };
 
-bool isdigit(char *ptr){
-    if(*ptr >= '0' && *ptr <= '9'){
-        return true; 
-    }
-    return false;
-}
 
 vetor<int> ordem(vetor<no<int>*> &adj){
     vetor<int> precedem;
@@ -118,7 +112,6 @@ vetor<int> ordem(vetor<no<int>*> &adj){
         }
 
     }
-    // printf("precedem cheio!");
 
 
     vetor<int> ordenado;
@@ -150,12 +143,19 @@ vetor<int> ordem(vetor<no<int>*> &adj){
     // return ordenado;
 }
 
+bool isdigit(char *ptr){
+    if(*ptr >= '0' && *ptr <= '9'){
+        return true; 
+    }
+    return false;
+}
+
 int main(void){
     
-    char *line; //inicio do buffer
-    char *ptr_char; 
     size_t str_size = 80; //tamanho do buffer
-    line = new char[str_size]; //buffer
+    char *line = new char[str_size];; //inicio do buffer
+    char *ptr_char; 
+    
 
     vetor<no<int>*> adj;// lista de adjacencias
 
@@ -168,30 +168,17 @@ int main(void){
         ptr_char = line;
 
         while(*ptr_char != '\0'){
-            if(isdigit(ptr_char)){
-                lista->insere(atoi(ptr_char));
+            if(isdigit(ptr_char)){ // achou numero
+                lista->insere(atoi(ptr_char));//insere numero na lista
                 while(isdigit(ptr_char)){// terminar a leitura de número
                     ptr_char++;
                 }
             }
             ptr_char++;
         }
-        adj.push_back(lista);
+        
+        adj.push_back(lista); //adiciona cabeça da lista encadeada de adjacencias a vetor
     }
-
-/*
-    printf("valores lidos \n");
-    no<int> *ptr_no;
-    for(int i = 0; i < adj.size(); i++){
-        ptr_no = adj.at(i)->prox;
-        printf("vertice %d -> ",i);
-        while(ptr_no != nullptr){
-            printf("%d ",ptr_no->data);
-            ptr_no = ptr_no->prox;
-        }
-        printf("\n");
-    }
-*/
 
     vetor<int> resposta = ordem(adj);
     for(int i = 0; i < resposta.size(); i++){
