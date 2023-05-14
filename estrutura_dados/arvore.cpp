@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 
+
 struct galho{
     int dado;
     galho *asc; /*ascendente*/

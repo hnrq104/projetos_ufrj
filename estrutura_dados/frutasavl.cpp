@@ -27,6 +27,7 @@ void rotacao_dir(struct fruta* &pt_a){
 
     //referencia
     pt_a = pt_b;
+    pt_a->data = 0;
 }
 
 void rotacao_esq(struct fruta* &pt_a){
@@ -36,6 +37,8 @@ void rotacao_esq(struct fruta* &pt_a){
 
     //por referencia
     pt_a = pt_b;
+    pt_a->data = 0;
+
 }
 
 /*
@@ -47,9 +50,8 @@ void rotacao_esq_dir(struct fruta* &pt_a){
 
 
 
-
 //nullptr alt = 0;
-struct insere(struct fruta* &p_fruta, int k){
+char insere(struct fruta* &p_fruta, int k){
     if(p_fruta == nullptr){
         p_fruta = new fruta(k);
         p_fruta->esq = nullptr;
@@ -59,30 +61,38 @@ struct insere(struct fruta* &p_fruta, int k){
         
         return 0;
     }
+    int valor = p_fruta->data;
+    
     char antigo; //3 bit significa q altura mudou, 2-1 bit é o caminho
-    char novo; //atualizado
+    char direcao;
+    
+
     if(k < p_fruta->data){
         antigo = insere(p_fruta->esq,k);
-        novo = antigo>>1;
+        direcao = 1; //esq
     }
     
     else{ 
         antigo = insere(p_fruta->dir, k);
-        novo = antigo>>1;
-
+        direcao = 0;//dir
     }
 
+    //3 bit vivo
+    if(antigo && 4){
+        if(direcao){
+            p_fruta->data++;
+        } 
+        else{
+            p_fruta->data--;
+        }
+    }
 
+    //ou tá desbalanceado e rotaciona
+    // ou ta ok e cresceu. ou ta ok e nao cresceu
 
-
-
-
-
-
-
-
-
-
+    if(p_fruta->data < -1 || p_fruta->data > 1){
+        // casos
+    }
 
 
 

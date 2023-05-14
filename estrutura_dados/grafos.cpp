@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,18 +10,18 @@ class no{
         no *prox;
 
         no(){
-            prox = nullptr;
+            prox = NULL;
         }
 
         ~no(){
-            if(prox!=nullptr){
+            if(prox!= NULL){
                 delete prox;
             }
         }
 
         void insere(T valor){
             no<T>* ptr = this;
-            while(ptr->prox != nullptr){
+            while(ptr->prox != NULL){
                 ptr = ptr->prox;
             }
 
@@ -106,7 +107,7 @@ vetor<int> ordem(vetor<no<int>*> &adj){
     no<int> *ptr;
     for(int i = 0; i < adj.size(); i++){
         ptr = adj.at(i)->prox;
-        while(ptr != nullptr){
+        while(ptr != NULL){
             precedem.at(ptr->data)++;
             ptr = ptr->prox;
         }
@@ -129,7 +130,7 @@ vetor<int> ordem(vetor<no<int>*> &adj){
         int num = ordenado.at(j); // numero para ser analizado
         no<int> *ptr = adj.at(num)->prox; // primeiro elemento da lista
         
-        while(ptr!=nullptr){ //subtrai da lista de precedencia
+        while(ptr!=NULL){ //subtrai da lista de precedencia
             precedem.at(ptr->data)--;
             //se zerar adicionar a ordem
             if(precedem.at(ptr->data) == 0){
@@ -159,6 +160,10 @@ int main(void){
 
     vetor<no<int>*> adj;// lista de adjacencias
 
+
+	//primeira linha nao importa
+	getline(&line, &str_size,stdin);
+
     while(true){
         getline(&line,&str_size,stdin);
         
@@ -182,7 +187,7 @@ int main(void){
 
     vetor<int> resposta = ordem(adj);
     for(int i = 0; i < resposta.size(); i++){
-        printf("%d",resposta.at(i));
+        printf("%d",resposta.at(i) + 1); //eu conto do 0, o professor conta do 1
     }
 
     return 0;
