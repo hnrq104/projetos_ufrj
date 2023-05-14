@@ -174,7 +174,8 @@ int main(void){
 
         while(*ptr_char != '\0'){
             if(isdigit(ptr_char)){ // achou numero
-                lista->insere(atoi(ptr_char));//insere numero na lista
+                lista->insere(atoi(ptr_char) - 1);//insere numero na lista
+				//professor conta do 1
                 while(isdigit(ptr_char)){// terminar a leitura de número
                     ptr_char++;
                 }
@@ -187,7 +188,7 @@ int main(void){
 
     vetor<int> resposta = ordem(adj);
     for(int i = 0; i < resposta.size(); i++){
-        printf("%d",resposta.at(i) + 1); //eu conto do 0, o professor conta do 1
+        printf("%d ",resposta.at(i) + 1); //eu conto do 0, o professor conta do 1
     }
 
     return 0;
