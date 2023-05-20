@@ -27,10 +27,17 @@ def approx_tt_der(foo,x0,h):
     der = foo(x0 + 2*h) - 2*foo(x0 + h) + 2*foo(x0 - h) - foo(x0 - 2*h)
     return der/(2*(h**3))
 
+##professor nao gostou
+
 def bar(vlist, x0, h):
     def foobar(x):
         return vlist[math.ceil((x - x0)/h)]
     return foobar
+
+
+
+##depois
+
 
 def square(x):
     return x**2
@@ -45,21 +52,35 @@ def sen_sq(x):
     return sin_cos.sin_taylor(square_root(x,10),10)/square_root(x,10)
 
 
+def tensao(lista,x):    
+    
+
+
 
 vl = []
 h = 0.001
-i = 0
-while (i < 3):
-    vl.append(square(i))
+i = 0.0001
+while (i <= 1):
+    vl.append(sen_sq(i))
     i+=h
 
 func = bar(vl,0,h)
 
-print(sin_cos.sin_taylor(math.pi/6,10))
+print(approx_p_der(sen_sq,0.0001,h))
+print(approx_p_der(func,0.0001,h))
 
-#print("OVER")
-print(square_root(9,10))
 
-print(approx_p_der(square,2,h))
-print(approx_p_der(func,2,h))
+
+lista = []
+lista.append([0,0])
+lista.append([0.002,0.287])
+lista.append([0.006,0.899])
+lista.append([0.012,1.915])
+lista.append([0.018,3.048])
+lista.append([0.024,4.299])
+
+
+
+
+#tarefa 3
 

@@ -2,13 +2,11 @@
 
 /* copia de frutas */
 
-struct fruta{
-    struct fruta *esq;
+struct fruta{ struct fruta *esq;
     struct fruta *dir;
 
     int data; // = hesq - hdir
     int frutas_esquerdas;
-
 
     fruta(int d){
         data = d;
@@ -17,16 +15,13 @@ struct fruta{
 
 
 
-
 //rotacoes
-
 void rotacao_dir(struct fruta* &pt_a){
     struct fruta *pt_b = pt_a->esq;
     pt_a->esq = pt_b->dir;
     pt_b->dir = pt_a;
 
-    //referencia
-    pt_a = pt_b;
+    //referencia pt_a = pt_b;
     pt_a->data = 0;
 }
 
@@ -34,8 +29,7 @@ void rotacao_esq(struct fruta* &pt_a){
     struct fruta *pt_b = pt_a->dir;
     pt_a->dir = pt_b->esq;
     pt_b->esq = pt_a;
-
-    //por referencia
+//por referencia
     pt_a = pt_b;
     pt_a->data = 0;
 
