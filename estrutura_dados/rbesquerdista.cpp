@@ -64,10 +64,15 @@ void einfugenLL(rb<T>* &root,T obj){
 
     if(farbe(root->sin) == BLACK && farbe(root->dex) == RED){
         links(root);
+        root->cor = root->sin->cor;
+        root->sin->cor = RED; 
+
     }
 
     if(farbe(root->sin) == RED && farbe(root->sin->sin) == RED){
         recht(axis);
+        root->cor = root->dex->cor;
+        root->dex->cor = RED;
     }
 }
 
