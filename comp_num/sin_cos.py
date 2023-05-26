@@ -1,8 +1,6 @@
 import math
 
 def sin_taylor(h, termos):
-    
-    pn = 1
     x = h
 
     while(x < 0):

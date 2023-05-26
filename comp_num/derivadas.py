@@ -38,6 +38,21 @@ def bar(vlist, x0, h):
 
 ##depois
 
+def primeira_dev_lista(vx, vy,j):
+    der = -vy[j + 2] + 4*vy[j + 1] - 3*vy[j]
+    return der/(vx[j + 2] - vx[j])
+
+def segunda_dev_lista(vx, vy,j):
+    der = -vy[j + 3] + 4*vy[j + 2] - 5*vy[j + 1] + 2*vy[j]
+    return der/((vx[j + 1] - vx[j])**2)
+
+def terceira_dev_lista(vx,vy,j):
+    der = 15*vy[j + 3] - 3*vy[j + 4] - 24*vy[j + 2]
+    der += 18*vy[j + 1] - 5*vy[j]
+
+    return der/(2*((vx[j+1] - vx[j])**3)) 
+
+
 
 def square(x):
     return x**2
@@ -52,35 +67,42 @@ def sen_sq(x):
     return sin_cos.sin_taylor(square_root(x,10),10)/square_root(x,10)
 
 
-def tensao(lista,x):    
-    
+def diff(h):
+    vx = []
+    vy = []
+    i = 0
+    while(i < 1):
+        i+=h
+        vx.append(i)
+        vy.append(sen_sq(i))
+
+    print("H = ",h,"\n")
+    print("Avaliação da primeira derivada em : 1/4")
+    print("primeira por lista", primeira_dev_lista(vx,vy,math.floor((1/h)*(1/4))))
+    print("primeira por funcao", approx_p_der(sen_sq,0.25,h))
+    print("diff = ",primeira_dev_lista(vx,vy,math.floor((1/h)*(1/4))) - approx_p_der(sen_sq,0.25,h))
+
+    print("---------------------------------------------------------\n")
+
+    print("Avaliação da primeira derivada em : 1/2")
+    print("primeira por lista", primeira_dev_lista(vx,vy,math.floor((1/h)*(1/2))))
+    print("primeira por funcao", approx_p_der(sen_sq,0.5,h))
+    print("diff = ",primeira_dev_lista(vx,vy,math.floor((1/h)*(1/2))) - approx_p_der(sen_sq,0.5,h))
+
+    print("---------------------------------------------------------\n")
+
+    print("Avaliação da primeira derivada em : 3/4")
+    print("primeira por lista", primeira_dev_lista(vx,vy,math.floor((1/h)*(3/4))))
+    print("primeira por funcao", approx_p_der(sen_sq,0.75,h))
+    print("diff = ",primeira_dev_lista(vx,vy,math.floor((1/h)*(3/4))) - approx_p_der(sen_sq,0.75,h))
+
+    print("\n")
+    return
 
 
+vx = [0,0.002,0.006,0.012,0.018,0.024]
+vy = [0,0.287,0.899,1.915,3.048,4.299]
 
-vl = []
-h = 0.001
-i = 0.0001
-while (i <= 1):
-    vl.append(sen_sq(i))
-    i+=h
-
-func = bar(vl,0,h)
-
-print(approx_p_der(sen_sq,0.0001,h))
-print(approx_p_der(func,0.0001,h))
-
-
-
-lista = []
-lista.append([0,0])
-lista.append([0.002,0.287])
-lista.append([0.006,0.899])
-lista.append([0.012,1.915])
-lista.append([0.018,3.048])
-lista.append([0.024,4.299])
-
-
-
-
-#tarefa 3
+u = 1.8 * (10**(-5))
+print(u * primeira_dev_lista(vx,vy,0))
 
