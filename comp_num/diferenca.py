@@ -38,8 +38,6 @@ def n_bottom_up(f_list : list, x_list : list):
             vector[pos + 1 + j] = diferenca(dif_0,dif_1,x_0,x_1)
 
     return vector
-            
-    return 0
          
 
 valoresx = [0, 0.35, 0.65, 1]
