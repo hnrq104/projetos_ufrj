@@ -132,9 +132,9 @@ for list in aval_pn:
         err.append(abs(list[i] - runge(x_tilde[i])))
     n_err.append(err)
 
-for i in range(len(n_err)):
-    max = np.max(np.array(n_err[i]))
-    print("erro maximo com p = ", (i+1)*5, " é :",max)
+# for i in range(len(n_err)):
+#     max = np.max(np.array(n_err[i]))
+#     print("erro maximo com p = ", (i+1)*5, " é :",max)
     
 # plt.title('Avaliação polinomial')
 # plt.plot(x_tilde,y_tilde,'b',label = 'Runge')
@@ -177,9 +177,9 @@ for aval in aval_chev:
         err.append(abs(aval[i] - runge(x_tilde[i])))
     chev_err.append(err)
 
-for i in range(len(chev_err)):
-    max = np.max(np.array(chev_err[i]))
-    print('erro maximo com nos de chev : ',(i+1)*5, 'é :', max)
+# for i in range(len(chev_err)):
+#     max = np.max(np.array(chev_err[i]))
+#     print('erro maximo com nos de chev : ',(i+1)*5, 'é :', max)
 
 # plt.title('Nós de Chebyshev')
 # plt.plot(x_tilde,y_tilde,'b',label = 'Runge')
@@ -199,8 +199,47 @@ val = [2*i for i in range(5)]
 
 #linear usa 2 pontos
 #se y = 3.2, usamos os mais proximos 2 e 4
-print(polinomio_lagrange(3.2,col_x_4[1:3],val[1:3]))
+print(polinomio_lagrange(3.2,col_x_4[1:3],val[1:3]) , 'linear [2,4]')
+
+#quadratica usa 3 pontos, podemos escolher 0,2,4 ou 2,4,6 (como 3.2 tá mais perto de 6 do que 0, vou escolher o segundo)
+print(polinomio_lagrange(3.2,col_x_4[1:4],val[1:4]), 'quadratica [2,4,6]')
+print(polinomio_lagrange(3.2,col_x_4[0:3],val[0:3]), 'quadratica [0,2,4]')
+
+#cubica usa 4 pontos mas a ideia é a mesma
+print(polinomio_lagrange(3.2,col_x_4[1:5],val[1:5]), 'cubica [2,4,6,8]')
+print(polinomio_lagrange(3.2,col_x_4[0:4],val[0:4]), 'cubica [0,2,4,6]')
 
 
+#b
+#escolhi os pontos mais próximos, vê se uma convergência em algo sobre 43.5
+
+#c
+#vou escolher os valores vou interpolar em x = [2,4,6], e depois interpolar o resultado
+col_x_2 = [90,64.49,48.90,38.78,35]
+col_x_6 = [70,48.15,35.03,27.07,25]
+
+#usarei 0,2,4 nessa interpolacao
+i_2 = polinomio_lagrange(2.7,col_x_2[0:3],val[0:3]) #x = 2 , y = 2.7
+i_4 = polinomio_lagrange(2.7,col_x_4[0:3],val[0:3]) #x = 4 , y = 2.7
+i_6 = polinomio_lagrange(2.7,col_x_6[0:3],val[0:3]) #x = 6 , y = 2.7
+#resultado: 
+print(polinomio_lagrange(4.5,[i_2,i_4,i_6],val[1:4]), 'interpolando primeiro em y e depois em x')
+
+
+#trocando a ordem de interpolação
+line_y_0 = [100,90,80,70,60]
+line_y_2 = [85,64.49,53.50,48.15,50]
+line_y_4 = [70,48.90,38.43,35.03,40]
+
+#y = 0, x = 4.5
+j_0 = polinomio_lagrange(4.5,line_y_0[1:4],val[1:4]) #x = [2,4,6]
+
+#y = 2, x = 4.5
+j_2 = polinomio_lagrange(4.5,line_y_2[1:4],val[1:4])
+
+#y = 4, x = 4.5
+j_4 = polinomio_lagrange(4.5,line_y_4[1:4],val[1:4])
+
+print(polinomio_lagrange(2.7,[j_0,j_2,j_4],val[0:3]), 'interpolando primeiro em x e depois em y')
 
 
