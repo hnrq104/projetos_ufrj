@@ -20,6 +20,7 @@ struct digital{
 
     digital(){
         cabeca = new node;
+        cabeca->marca = 1;
         tamanho = 0;
     }
 
@@ -44,13 +45,29 @@ struct digital{
         node* ptr = cabeca;
         for(unsigned i = 0; i < submask; i++){
             unsigned bit = (bits & mascara) != 0;
-            std::cout << bit << " ";
             ptr = ptr->dig[bit];
             if(ptr == nullptr){
                 break;
             }
         }
         return ptr;
+    }
+
+    void del(unsigned bits, unsigned submask){
+        node* ptr = find(bits,submask);
+        if(ptr == nullptr || ptr->marca == 0) return;
+        ptr->marca = 0;
+        while(ptr->marca == 0 && ptr->dig[0] == nullptr && ptr->dig[1] == nullptr){
+            node* aux = ptr;
+            ptr = ptr->ant;
+            if(aux == ptr->dig[0]){
+                ptr->dig[0] = nullptr;
+            }
+            else{
+                ptr->dig[1] = nullptr;
+            }
+            delete aux;
+        }
     }
 
 
