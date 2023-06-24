@@ -149,7 +149,7 @@ struct floresta{
         prato = arvores.at(i);
         saladas = prato;
 
-        for(i = i+1; i < arvores.size(); i++){
+        for(i = i+1; i < arvores.size() ; i++){
             if(arvores.at(i) != nullptr){
                 prato->prox = arvores.at(i);
                 prato = prato->prox;

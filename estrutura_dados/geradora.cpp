@@ -216,6 +216,9 @@ int main(void){
     char *linha = new char[tam_buffer];
 
     int maior = 0;
+    
+    getline(&linha,&tam_buffer, stdin);
+
     while(true){
         getline(&linha,&tam_buffer,stdin);
         if(feof(stdin)) break;

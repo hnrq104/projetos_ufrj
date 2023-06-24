@@ -2,9 +2,6 @@ import math
 import matplotlib.pyplot as plt
 import matplotlib.lines as Line
 import numpy as np
-#diferencas divididas de newton
-# def diferenca(dif_0, dif_1, x_0, x_1):
-#     return (dif_0 - dif_1)/(x_0 - x_1)
 
 def n2_bottom_up(f_list : list, x_list : list):
     matrix = []
@@ -132,18 +129,18 @@ for list in aval_pn:
         err.append(abs(list[i] - runge(x_tilde[i])))
     n_err.append(err)
 
-# for i in range(len(n_err)):
-#     max = np.max(np.array(n_err[i]))
-#     print("erro maximo com p = ", (i+1)*5, " é :",max)
+for i in range(len(n_err)):
+    max = np.max(np.array(n_err[i]))
+    print("erro maximo com p = ", (i+1)*5, " é :",max)
     
-# plt.title('Avaliação polinomial')
-# plt.plot(x_tilde,y_tilde,'b',label = 'Runge')
-# plt.plot(x_tilde,aval_pn[0],'r',label = 'p5')
-# plt.plot(x_tilde,aval_pn[1],'g',label = 'p10')
-# plt.plot(x_tilde,aval_pn[2],'y',label = 'p15')
-# plt.plot(x_tilde,aval_pn[3],'m',label = 'p20')
-# plt.legend()
-# plt.ylim(-1,1)
+plt.title('Avaliação polinomial')
+plt.plot(x_tilde,y_tilde,'b',label = 'Runge')
+plt.plot(x_tilde,aval_pn[0],'r',label = 'p5')
+plt.plot(x_tilde,aval_pn[1],'g',label = 'p10')
+plt.plot(x_tilde,aval_pn[2],'y',label = 'p15')
+plt.plot(x_tilde,aval_pn[3],'m',label = 'p20')
+plt.legend()
+plt.ylim(-1,1)
 
 #nos de chebychev
 n_chev = []
@@ -177,19 +174,20 @@ for aval in aval_chev:
         err.append(abs(aval[i] - runge(x_tilde[i])))
     chev_err.append(err)
 
-# for i in range(len(chev_err)):
-#     max = np.max(np.array(chev_err[i]))
-#     print('erro maximo com nos de chev : ',(i+1)*5, 'é :', max)
+for i in range(len(chev_err)):
+    max = np.max(np.array(chev_err[i]))
+    print('erro maximo com nos de chev : ',(i+1)*5, 'é :', max)
 
-# plt.title('Nós de Chebyshev')
-# plt.plot(x_tilde,y_tilde,'b',label = 'Runge')
-# plt.plot(x_tilde,aval_chev[0],'r',label = 'chev5')
-# plt.plot(x_tilde,aval_chev[1],'g',label = 'chev10')
-# plt.plot(x_tilde,aval_chev[2],'y',label = 'chev15')
-# plt.plot(x_tilde,aval_chev[3],'m',label = 'chev20')
-# plt.legend()
-# plt.ylim(-1,1)
-# plt.show()
+
+plt.title('Nós de Chebyshev')
+plt.plot(x_tilde,y_tilde,'b',label = 'Runge')
+plt.plot(x_tilde,aval_chev[0],'r',label = 'chev5')
+plt.plot(x_tilde,aval_chev[1],'g',label = 'chev10')
+plt.plot(x_tilde,aval_chev[2],'y',label = 'chev15')
+plt.plot(x_tilde,aval_chev[3],'m',label = 'chev20')
+plt.legend()
+plt.ylim(-1,1)
+plt.show()
 
 
 #3
