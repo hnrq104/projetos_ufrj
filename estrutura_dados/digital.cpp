@@ -19,7 +19,7 @@ struct node{
 void copia_str(char* original, char* copia){
     /*80 é o tamanho da string, preguica de fazer com vetor*/
     for(int i = 0; i<80; i++){
-        *copia = *original;
+        if(*original != '\n') *copia = *original;
         if(*original == '\0') break;
         copia++;
         original++;
@@ -33,6 +33,11 @@ struct digital{
     digital(){
         cabeca = new node;
         cabeca->marca = 1;
+
+        char string[] = "N/A";
+        cabeca->str = new char[80];
+        copia_str(string,cabeca->str);
+
         tamanho = 0;
     }
 
@@ -42,6 +47,7 @@ struct digital{
         for(unsigned i = 0; i < submask; i++){
             unsigned bit = (bits & mascara) != 0;
             mascara = mascara>>1;
+
             if(ptr->dig[bit] == nullptr){
                 ptr->dig[bit] = new node;
                 ptr->dig[bit]->ant = ptr;
@@ -59,6 +65,8 @@ struct digital{
         node* ptr = cabeca;
         for(unsigned i = 0; i < submask; i++){
             unsigned bit = (bits & mascara) != 0;
+            mascara = mascara>>1;
+
             ptr = ptr->dig[bit];
             if(ptr == nullptr){
                 break;
@@ -73,6 +81,8 @@ struct digital{
         node* marcado = cabeca;
         for(unsigned i = 0; i < submask; i++){
             unsigned bit = (bits & mascara) != 0;
+            mascara = mascara>>1;
+
             ptr = ptr->dig[bit];
             if(ptr == nullptr){
                 break;
@@ -136,17 +146,17 @@ void print(char* ptr){
 
 int main(void){
 
-    char h[] = "146.127.30.0/24 henrique";
-    char b[] = "192.255.50.20/30 beatriz";
-    char r[] = "10.128.0.0/9 raul seixas";
-    char n[] = "146.127.30.15/32 nityananda";
-
-    char* ponteiros[] = {h,b,r,n};
-
+    size_t tam_buffer = 80;
+    char* linha = new char[tam_buffer];
     digital d;
-    unsigned numeros[4];
-    for(int i = 0; i < 4; i++){
-        char* aux = ponteiros[i];
+
+    /*insercao*/
+    while(true){
+        getline(&linha,&tam_buffer,stdin);
+        
+        if(feof(stdin) || *linha == '\n') break;
+
+        char* aux = linha;
         unsigned submask;
         short ip[4];
         for(int i = 0; i < 4; i++){
@@ -154,32 +164,33 @@ int main(void){
             while(isdigit(aux)) aux++;
             aux++; /*pula o '.'*/
         }
-
-        for(int i = 0; i < 4; i++){
-            std::cout << std::hex << std::setw(2) << std::setfill('0') << ip[i];
-        }
-        std::cout<<std::endl;
-        numeros[i] = binario(ip);
-        std::cout<< std::hex << numeros[i] << std::endl;
-
         submask = atoi(aux);
         while(isdigit(aux)) aux++;
         aux++;
-        print(aux);
-        std::cout << std::endl;
-        /*pula o espaço*/
         /*mensagem está aqui*/
-        d.insere(numeros[i],submask,aux);
+        d.insere(binario(ip),submask,aux);
 
     }
 
-    node* nitya = d.find_ultimo(numeros[0],24);
-    std::cout << nitya << std::endl;
-    print(nitya->str);
-    std::cout << std::endl;
+    /*perguntas*/
+    while(true){
+        getline(&linha,&tam_buffer,stdin);
 
+        if(feof(stdin)) break;
+        
+        char* aux = linha;
+        unsigned submask;
+        short ip[4];
+        for(int i = 0; i < 4; i++){
+            ip[i] = atoi(aux);
+            while(isdigit(aux)) aux++;
+            aux++; /*pula o '.'*/
+        }
+        submask = atoi(aux);
+        node* ptr = d.find_ultimo(binario(ip),submask);
+        print(ptr->str);
+        std::cout << std::endl;
 
-
-
+    }
     return 0;
 }
