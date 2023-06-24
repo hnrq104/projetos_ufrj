@@ -14,6 +14,10 @@ struct node{
         dig[1] = nullptr;
         str = nullptr;
     }
+    ~node(){
+        delete[] dig;
+        delete[] str;
+    }
 };
 
 void copia_str(char* original, char* copia){
