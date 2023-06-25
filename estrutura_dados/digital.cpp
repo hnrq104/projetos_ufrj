@@ -1,6 +1,7 @@
-#include <bits/stdc++.h>
 
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 struct node{
     int marca;
     node* ant;
@@ -134,27 +135,20 @@ unsigned binario(short ip[4]){
 146.127.30.15/32 nityananda
 */
 
-
-bool isdigit(char* ptr){
-    if(*ptr >= '0' && *ptr<= '9') return true;
-    return false;
-}
-
 void print(char* ptr){
     while(*ptr != '\0'){
-        std::cout << *ptr;
+        printf("%c",*ptr);
         ptr++;
     }
 }
 
 int main(void){
-
     size_t tam_buffer = 80;
     char* linha = new char[tam_buffer];
     digital d;
 
     /*insercao*/
-    getline(&linha,&tam_buffer,stdin);
+    getline(&linha,&tam_buffer,stdin);/*primeira linha não importa*/
 
     while(true){
         getline(&linha,&tam_buffer,stdin);
@@ -165,19 +159,19 @@ int main(void){
         short ip[4];
         for(int i = 0; i < 4; i++){
             ip[i] = atoi(aux);
-            while(isdigit(aux)) aux++;
+            while(*aux>='0' && *aux<='9') aux++;
             aux++; /*pula o '.'*/
         }
         
         if(*aux == '\0'){//não tem submascara
             node* ptr = d.find_ultimo(binario(ip),32);
             print(ptr->str);
-            std::cout << std::endl;
+            printf("\n");
             continue;
         }
         
         submask = atoi(aux);
-        while(isdigit(aux)) aux++;
+        while(*aux>='0' && *aux<='9') aux++;
         aux++;
         /*mensagem está aqui*/
         d.insere(binario(ip),submask,aux);
