@@ -15,7 +15,6 @@ struct node{
         str = nullptr;
     }
     ~node(){
-        delete[] dig;
         delete[] str;
     }
 };
@@ -155,9 +154,12 @@ int main(void){
     digital d;
 
     /*insercao*/
-    while(true){
+    int num;
+    getline(&linha,&tam_buffer,stdin);
+    num = atoi(linha);
+
+    for(int i = 0; i < num; i++){
         getline(&linha,&tam_buffer,stdin);
-        
         if(feof(stdin) || *linha == '\n') break;
 
         char* aux = linha;
@@ -179,19 +181,16 @@ int main(void){
     /*perguntas*/
     while(true){
         getline(&linha,&tam_buffer,stdin);
-
         if(feof(stdin)) break;
         
         char* aux = linha;
-        unsigned submask;
         short ip[4];
         for(int i = 0; i < 4; i++){
             ip[i] = atoi(aux);
             while(isdigit(aux)) aux++;
             aux++; /*pula o '.'*/
         }
-        submask = atoi(aux);
-        node* ptr = d.find_ultimo(binario(ip),submask);
+        node* ptr = d.find_ultimo(binario(ip),32);
         print(ptr->str);
         std::cout << std::endl;
 
