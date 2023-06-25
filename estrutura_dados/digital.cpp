@@ -154,11 +154,9 @@ int main(void){
     digital d;
 
     /*insercao*/
-    int num;
     getline(&linha,&tam_buffer,stdin);
-    num = atoi(linha);
 
-    for(int i = 0; i < num; i++){
+    while(true){
         getline(&linha,&tam_buffer,stdin);
         if(feof(stdin) || *linha == '\n') break;
 
@@ -170,6 +168,14 @@ int main(void){
             while(isdigit(aux)) aux++;
             aux++; /*pula o '.'*/
         }
+        
+        if(*aux == '\0'){//não tem submascara
+            node* ptr = d.find_ultimo(binario(ip),32);
+            print(ptr->str);
+            std::cout << std::endl;
+            continue;
+        }
+        
         submask = atoi(aux);
         while(isdigit(aux)) aux++;
         aux++;
@@ -177,23 +183,6 @@ int main(void){
         d.insere(binario(ip),submask,aux);
 
     }
-
-    /*perguntas*/
-    while(true){
-        getline(&linha,&tam_buffer,stdin);
-        if(feof(stdin)) break;
-        
-        char* aux = linha;
-        short ip[4];
-        for(int i = 0; i < 4; i++){
-            ip[i] = atoi(aux);
-            while(isdigit(aux)) aux++;
-            aux++; /*pula o '.'*/
-        }
-        node* ptr = d.find_ultimo(binario(ip),32);
-        print(ptr->str);
-        std::cout << std::endl;
-
-    }
+    
     return 0;
 }
