@@ -11,9 +11,9 @@ struct node{
 
     node(){
         marca = 0;
-        dig[0] = nullptr;
-        dig[1] = nullptr;
-        str = nullptr;
+        dig[0] = NULL;
+        dig[1] = NULL;
+        str = NULL;
     }
     ~node(){
         delete[] str;
@@ -52,7 +52,7 @@ struct digital{
             unsigned bit = (bits & mascara) != 0;
             mascara = mascara>>1;
 
-            if(ptr->dig[bit] == nullptr){
+            if(ptr->dig[bit] == NULL){
                 ptr->dig[bit] = new node;
                 ptr->dig[bit]->ant = ptr;
             }
@@ -72,7 +72,7 @@ struct digital{
             mascara = mascara>>1;
 
             ptr = ptr->dig[bit];
-            if(ptr == nullptr){
+            if(ptr == NULL){
                 break;
             }
         }
@@ -88,7 +88,7 @@ struct digital{
             mascara = mascara>>1;
 
             ptr = ptr->dig[bit];
-            if(ptr == nullptr){
+            if(ptr == NULL){
                 break;
             }
             if(ptr->marca){
@@ -101,16 +101,16 @@ struct digital{
 
     void del(unsigned bits, unsigned submask){
         node* ptr = find(bits,submask);
-        if(ptr == nullptr || ptr->marca == 0) return;
+        if(ptr == NULL || ptr->marca == 0) return;
         ptr->marca = 0;
-        while(ptr->marca == 0 && ptr->dig[0] == nullptr && ptr->dig[1] == nullptr){
+        while(ptr->marca == 0 && ptr->dig[0] == NULL && ptr->dig[1] == NULL){
             node* aux = ptr;
             ptr = ptr->ant;
             if(aux == ptr->dig[0]){
-                ptr->dig[0] = nullptr;
+                ptr->dig[0] = NULL;
             }
             else{
-                ptr->dig[1] = nullptr;
+                ptr->dig[1] = NULL;
             }
             delete aux;
         }
@@ -165,6 +165,7 @@ int main(void){
         
         if(*aux == '\0'){//não tem submascara
             node* ptr = d.find_ultimo(binario(ip),32);
+            printf("%d.%d.%d.%d ",ip[0],ip[1],ip[2],ip[3]);
             print(ptr->str);
             printf("\n");
             continue;
