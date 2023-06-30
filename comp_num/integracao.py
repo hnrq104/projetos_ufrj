@@ -50,8 +50,8 @@ def n_min_desejado(a,b,err):
     return math.ceil(math.sqrt(erro_quadrado))
 
 
-valores = [-2,0.5,1,5]
-comparar = [-0.48825340607534075450,
+valores = [2,0.5,1,5]
+comparar = [0.48825340607534075450,
              0.49234422587144639288,
              0.77989340037682282947,
              0.56363118870401223110]
@@ -82,4 +82,3 @@ for i in range(0,len(valores)):
     valor =  b_simpson(0,valores[i],nos,fresnel)
     print("/fresnel(",valores[i],") = ",valor , " err = ", abs(valor - comparar[i]))
 
-print(b_trapezio(0,-2,452,fresnel) - comparar[0])
