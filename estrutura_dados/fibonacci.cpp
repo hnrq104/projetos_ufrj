@@ -40,6 +40,7 @@ struct fibonacci{
         subjugado->marca = false;
         dominante->sucessores.push_back(subjugado);
         subjugado->pos = dominante->sucessores.size() - 1;
+        dominante->ordem++;
         return dominante;
     }
 
@@ -141,18 +142,20 @@ struct fibonacci{
         
         node* ptr = a;
         while(ptr->anterior != nullptr){
-            ptr->anterior->sucessores.at(ptr->pos) = nullptr;
-            ptr->anterior->ordem--;
+            node* ant = ptr->anterior;
+            ant->sucessores.at(ptr->pos) = nullptr;
+            ant->ordem--;
             insere_arvore(ptr);
-            if(ptr->anterior->marca == false){
-                ptr->anterior->marca = true;
+            if(ant->marca == false){
+                ant->marca = true;
                 break;
             }
-            ptr = ptr->anterior;
+            ptr = ant;
         }
 
         if(ptr->anterior == nullptr){
             //chegou na raiz;
+            arvores.at(ptr->ordem + 1) = nullptr;
             insere_arvore(ptr);
         }
 
@@ -165,7 +168,9 @@ void printa_arvore(node* a){
     if(a->sucessores.size()!= 0){
         std::cout << "(";
         for(size_t i = 0; i < a->sucessores.size(); i++){
-            printa_arvore(a->sucessores.at(i));
+            if(a->sucessores.at(i) != nullptr){
+                printa_arvore(a->sucessores.at(i));
+            }
         }
         std::cout << ")";
     }
@@ -173,9 +178,9 @@ void printa_arvore(node* a){
 
 int main(void){
     fibonacci heap;
-    heap.insere(10);
+    node* ptr10 = heap.insere(10);
     std::cout << "min = " << heap.min->chave << std::endl;
-    heap.insere(4);
+    node* ptr4 = heap.insere(4);
     std::cout << "min = " << heap.min->chave << std::endl;
     heap.insere(7);
     std::cout << "min = " << heap.min->chave << std::endl;
@@ -183,8 +188,7 @@ int main(void){
     std::cout << "min = " << heap.min->chave << std::endl;
     heap.insere(15);
     std::cout << "min = " << heap.min->chave << std::endl;
-    heap.insere(2);
-    std::cout <<  heap.extrai_min() << std::endl;
+    node* ptr2 = heap.insere(2);
     std::cout << "min = " << heap.min->chave << std::endl;
 
     for(size_t i = 0; i < heap.arvores.size(); i++){
@@ -194,13 +198,20 @@ int main(void){
     }
 
 
-    heap.insere(0);
-    std::cout << heap.arvores.size() << std::endl;
+    std::cout << "nova arvore" << std::endl;
+    
+    heap.diminui_prioridade(ptr10,3);
 
-    heap.insere(20);
+    // heap.diminui_prioridade(ptr10,3);
 
-    std::cout << heap.extrai_min() << std::endl;
-    std::cout << heap.min->chave << std::endl;
+    for(size_t i = 0; i < heap.arvores.size(); i++){
+        if(heap.arvores.at(i) == nullptr) continue;
+        printa_arvore(heap.arvores.at(i));
+        std::cout << std::endl;
+    }
+
+    std::cout << ptr2->sucessores.size() << std::endl;
+    
 
     return 0;
 }
