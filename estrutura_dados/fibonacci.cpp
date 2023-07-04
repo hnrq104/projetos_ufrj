@@ -38,6 +38,7 @@ struct fibonacci{
         subjugado->anterior = dominante;
         subjugado->marca = false;
         dominante->sucessores.push_back(subjugado);
+        dominante->ordem++;
         return dominante;
     }
 
@@ -102,8 +103,7 @@ struct fibonacci{
         arvores.at(min->ordem) = nullptr;
         for(size_t i = 0; i < min->sucessores.size(); i++){
             node* ptr = min->sucessores.at(i);
-            if(ptr==nullptr) continue;
-            insere_arvore(ptr);
+            if(ptr!=nullptr) insere_arvore(ptr);
         }
         
         delete min;
@@ -145,15 +145,25 @@ int main(void){
     heap.insere(15);
     std::cout << "min = " << heap.min->chave << std::endl;
     heap.insere(2);
+
+
+    for(size_t i = 0; i < heap.arvores.size(); i++){
+        if(heap.arvores.at(i) != nullptr){
+            printa_arvore(heap.arvores.at(i));
+            std::cout << std::endl;
+        }
+    }
+
     std::cout <<  heap.extrai_min() << std::endl;
     std::cout << "min = " << heap.min->chave << std::endl;
-    heap.insere(0);
-    std::cout << heap.arvores.size() << std::endl;
 
-    heap.insere(20);
 
-    std::cout << heap.extrai_min() << std::endl;
-    std::cout << heap.min->chave << std::endl;
+    for(size_t i = 0; i < heap.arvores.size(); i++){
+        if(heap.arvores.at(i) != nullptr){
+            printa_arvore(heap.arvores.at(i));
+            std::cout << std::endl;
+        }
+    }
 
     return 0;
 }
