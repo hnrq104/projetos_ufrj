@@ -4,6 +4,7 @@ struct node{
     bool marca;
     double chave;
     int ordem;
+    int pos;
     
     node* anterior;
     std::vector<node*> sucessores;
@@ -38,6 +39,7 @@ struct fibonacci{
         subjugado->anterior = dominante;
         subjugado->marca = false;
         dominante->sucessores.push_back(subjugado);
+        subjugado->pos = dominante->sucessores.size() - 1;
         return dominante;
     }
 
@@ -68,6 +70,7 @@ struct fibonacci{
             arvores.push_back(novo);
         }
 
+        novo->pos = i;
         return novo;
     }
 
@@ -90,6 +93,7 @@ struct fibonacci{
             arvores.push_back(novo);
         }
 
+        novo->pos = i;
         return novo;
     }
 
@@ -105,10 +109,8 @@ struct fibonacci{
             if(ptr==nullptr) continue;
             insere_arvore(ptr);
         }
-        
         delete min;
         min = nullptr;
-        
         double menor = MAXFLOAT;
         for(size_t i = 0; i < arvores.size(); i++){
             if(arvores.at(i) != nullptr && arvores.at(i)->chave < menor){
@@ -119,10 +121,47 @@ struct fibonacci{
 
         return extraida;
     }
+
+    node* diminui_prioridade(node* a, double n){
+        if(a->chave <= n){
+            return a; //not diminishing
+        }
+
+        a->chave = n;
+        if(n < min->chave){
+            min = a;
+        }
+
+        if(a->anterior == nullptr) return a; //don't have to do anything
+
+        //terrible idea, will have to look up which position it is in the previous vector,
+        // a way to change this, is to keep track of where it was inserted. (boring)
+        // will spend a lot of memory doing this but it will be easier
+
+        
+        node* ptr = a;
+        while(ptr->anterior != nullptr){
+            ptr->anterior->sucessores.at(ptr->pos) = nullptr;
+            ptr->anterior->ordem--;
+            insere_arvore(ptr);
+            if(ptr->anterior->marca == false){
+                ptr->anterior->marca = true;
+                break;
+            }
+            ptr = ptr->anterior;
+        }
+
+        if(ptr->anterior == nullptr){
+            //chegou na raiz;
+            insere_arvore(ptr);
+        }
+
+        return a;
+    }
 };
 
 void printa_arvore(node* a){
-std::cout << "'"<< a->chave << "'";
+    std::cout << "'"<< a->chave << "'";
     if(a->sucessores.size()!= 0){
         std::cout << "(";
         for(size_t i = 0; i < a->sucessores.size(); i++){
@@ -147,6 +186,14 @@ int main(void){
     heap.insere(2);
     std::cout <<  heap.extrai_min() << std::endl;
     std::cout << "min = " << heap.min->chave << std::endl;
+
+    for(size_t i = 0; i < heap.arvores.size(); i++){
+        if(heap.arvores.at(i) == nullptr) continue;
+        printa_arvore(heap.arvores.at(i));
+        std::cout << std::endl;
+    }
+
+
     heap.insere(0);
     std::cout << heap.arvores.size() << std::endl;
 
