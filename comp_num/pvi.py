@@ -146,4 +146,11 @@ y=[10000,1]
 def doenca(t,y):
     return nup.array([-b*y[0]*y[1] + gamma*y[1], b*y[0]*y[1] - gamma*y[1]])
 
+[t,y] = runge_kutta(doenca,0,21,y,200)
+# print(y[50])
 
+plt.legend("disgraca")
+plt.plot(t,[x[0] for x in y],'r',label="S")
+plt.plot(t,[x[1] for x in y],'b',label="I")
+plt.legend()
+plt.show()
