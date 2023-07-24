@@ -67,8 +67,8 @@ def runge_kutta(f,t0,tf,y0,np):
 
         yn = yn + (dt/6)*(k1 + 2*k2 + 2*k3 + k4)
         tn = t0 + (n+1)*dt
-
         y.append(yn)
+        
         t.append(tn)
 
     return [t,y]
@@ -141,16 +141,10 @@ print("met runge_kutta = " ,valb[2], "a - b ", val[2] - valb[2])
 
 b = 0.0003
 gamma = 0.15
-y=[10000,1]
+y0=[10000,1]
 
 def doenca(t,y):
-    return nup.array([-b*y[0]*y[1] + gamma*y[1], b*y[0]*y[1] - gamma*y[1]])
+    return nup.array([-(b*y[0]*y[1] - gamma*y[1]), b*y[0]*y[1] - gamma*y[1]])
 
-[t,y] = runge_kutta(doenca,0,21,y,200)
-# print(y[50])
-
-plt.legend("disgraca")
-plt.plot(t,[x[0] for x in y],'r',label="S")
-plt.plot(t,[x[1] for x in y],'b',label="I")
-plt.legend()
-plt.show()
+[t,y] = runge_kutta(doenca,0,21,y0,26)
+print(y[26])
